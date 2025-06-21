@@ -162,24 +162,33 @@
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec';
-    let employeeList = [];
+    et employeeList = [];
+let departmentList = [];
 
-fetch(scriptURL)
-  .then((res) => res.json())
-  .then((data) => {
-    employeeList = data; // เก็บข้อมูลพนักงานไว้ใช้
-    const select = document.getElementById("nameSelect");
-    data.forEach((emp) => {
+// โหลดชื่อพนักงาน
+fetch(`${baseURL}?action=employees`)
+  .then(res => res.json())
+  .then(data => {
+    employeeList = data;
+    const nameSelect = document.getElementById("nameSelect");
+    data.forEach(emp => {
       const option = document.createElement("option");
       option.value = emp.name;
       option.textContent = emp.name;
-      select.appendChild(option);
+      nameSelect.appendChild(option);
     });
-  })
-  .catch((err) => {
-    console.error("โหลดข้อมูลพนักงานล้มเหลว:", err);
   });
 
+// โหลดรายชื่อแผนก (ถ้าจะใช้ที่อื่น เช่น drop-down เลือกแผนก)
+fetch(`${baseURL}?action=departments`)
+  .then(res => res.json())
+  .then(data => {
+    departmentList = data;
+    console.log("โหลดแผนกสำเร็จ:", departmentList);
+    // ถ้าคุณมี dropdown ของแผนกก็ใส่ตรงนี้ได้
+  });
+
+// แสดงแผนกอัตโนมัติเมื่อเลือกชื่อ
 document.getElementById('nameSelect').addEventListener('change', function () {
   const selectedName = this.value;
   const emp = employeeList.find(e => e.name === selectedName);
