@@ -185,18 +185,19 @@ fetch(`${baseURL}?action=employees`)
   });
 
 fetch(`${baseURL}?action=departments`)
-    .then(res => res.json())
-    .then(data => {
-      const deptSelect = document.getElementById("departmentBox");
-      deptSelect.innerHTML = '<option value="">-- เลือกแผนก --</option>';
-      data.forEach(dept => {
-        const option = document.createElement("option");
-        option.value = dept.deptId;
-        option.textContent = dept.deptName;
-        deptSelect.appendChild(option);
-      });
-    })
-    .catch(err => console.error("โหลดรายชื่อแผนกล้มเหลว:", err));
+  .then(res => res.json())
+  .then(data => {
+    console.log("departmentList =", data);  // ตรวจสอบข้อมูลแผนก
+    const deptSelect = document.getElementById("departmentBox");
+    deptSelect.innerHTML = '<option value="">-- เลือกแผนก --</option>';
+    data.forEach(dept => {
+      const option = document.createElement("option");
+      option.value = dept.deptId;
+      option.textContent = dept.deptName;
+      deptSelect.appendChild(option);
+    });
+  });
+
 
 
 
