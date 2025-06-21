@@ -205,33 +205,29 @@ fetch(`${baseURL}?action=departments`)
 
 // ส่งข้อมูล POST
 document.getElementById('leaveForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target).entries());
-  console.log("Sending data:", data);
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.action = "saveLeave"; // สำคัญมาก!
 
-const data = {
-  action: "saveLeave",
-  name: "Jakrayut Sangbunrueang",
-  department: "IT",
-  type: "ลากิจ",
-  dateStart: "2025-06-23",
-  timeStart: "08:00",
-  dateEnd: "2025-06-23",
-  timeEnd: "17:00",
-  leaveOfNumber: "1",
-  reason: "test"
-};
-
-fetch(baseURL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data),
-})
-  .then(res => res.json())
-  .then(json => console.log("Response:", json))
-  .catch(err => console.error("Fetch error:", err));
-
-
+      fetch(baseURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.result === "ok") {
+          document.getElementById('msg').innerHTML = '<div class="alert alert-success">ส่งคำขอลาสำเร็จ</div>';
+          form.reset();
+        } else {
+          throw new Error(res.message || 'เกิดข้อผิดพลาด');
+        }
+      })
+      .catch(err => {
+        document.getElementById('msg').innerHTML = '<div class="alert alert-danger">ผิดพลาด: ' + err.message + '</div>';
+      });
+    });
 
 </script>
 
