@@ -94,15 +94,20 @@
     <h2 class="mb-4 text-center">แบบฟอร์มขอลา</h2>
     <form id="leaveForm" class="mx-auto">
       
-      <!-- ชื่อพนักงาน -->
-<select class="form-select" id="nameSelect" name="name" required>
-  <option value="">-- เลือกชื่อพนักงาน --</option>
-</select>
+     <div class="mb-3">
+  <label for="nameSelect" class="form-label">ชื่อ</label>
+  <select class="form-select" id="nameSelect" name="name" required>
+    <option value="">-- เลือกชื่อพนักงาน --</option>
+  </select>
+</div>
 
-<!-- แผนก (เลือกได้เอง) -->
-<select class="form-select" id="departmentBox" name="department" required>
-  <option value="">-- เลือกแผนก --</option>
-</select>
+<div class="mb-3">
+  <label for="departmentBox" class="form-label">แผนก</label>
+  <select class="form-select" id="departmentBox" name="department" required>
+    <option value="">-- เลือกแผนก --</option>
+  </select>
+</div>
+
 
 
       <div class="mb-3">
@@ -186,7 +191,7 @@ fetch(`${baseURL}?action=departments`)
     const deptSelect = document.getElementById("departmentBox");
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.name;       // หรือ dept.id ถ้าจะใช้รหัส
+      option.value = dept.name;  // หรือใช้ dept.id ก็ได้ตามต้องการ
       option.textContent = dept.name;
       deptSelect.appendChild(option);
     });
@@ -195,28 +200,28 @@ fetch(`${baseURL}?action=departments`)
     console.error("โหลดรายชื่อแผนกล้มเหลว:", err);
   });
 
- 
+// **ตัด event listener แสดงแผนกอัตโนมัติออก**
 
-  // ส่งข้อมูล POST
-  document.getElementById('leaveForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
+// ส่งข้อมูล POST
+document.getElementById('leaveForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
 
-    fetch(baseURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+  fetch(baseURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json())
+    .then(res => {
+      alert('ส่งคำขอลาสำเร็จ!');
+      e.target.reset();
+      document.getElementById('departmentBox').value = '';
     })
-      .then(res => res.json())
-      .then(res => {
-        alert('ส่งคำขอลาสำเร็จ!');
-        e.target.reset();
-        document.getElementById('departmentBox').value = '';
-      })
-      .catch(err => {
-        alert('เกิดข้อผิดพลาด: ' + err);
-      });
-  });
+    .catch(err => {
+      alert('เกิดข้อผิดพลาด: ' + err);
+    });
+});
 </script>
 
   
