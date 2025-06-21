@@ -139,18 +139,19 @@
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
 
-      fetch(scriptURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(res => {
-        alert("ส่งคำขอลาสำเร็จ!");
-        e.target.reset();
-        document.getElementById("departmentBox").value = "";
-      })
-      .catch(err => alert("เกิดข้อผิดพลาด: " + err));
+     fetch(scriptURL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(res => {
+  alert("ส่งคำขอลาสำเร็จ!");
+  form.reset();
+  document.getElementById("departmentBox").value = "";
+})
+.catch(err => alert("เกิดข้อผิดพลาด: " + err));
+
     });
   </script>
 </body>
