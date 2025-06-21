@@ -104,6 +104,7 @@
         <label for="departmentBox" class="form-label">แผนก</label>
         <select class="form-select" id="departmentBox" name="department" required>
         <option value="">-- เลือกแผนก --</option>
+        </select>
       </div>
 
       <div class="mb-3">
@@ -179,26 +180,21 @@
       });
     });
 
-  // โหลดรายชื่อแผนก
-  fetch(`${baseURL}?action=departments`)
-    .then(res => res.json())
-    .then(data => {
-      departmentList = data;
-      const deptSelect = document.getElementById("departmentBox");
-      data.forEach(dept => {
-        const option = document.createElement("option");
-        option.value = dept.name;
-        option.textContent = dept.name;
-        deptSelect.appendChild(option);
-      });
+ // โหลดรายชื่อแผนก
+fetch(`${baseURL}?action=departments`)
+  .then(res => res.json())
+  .then(data => {
+    departmentList = data;
+    const deptSelect = document.getElementById("departmentBox");
+    data.forEach(dept => {
+      const option = document.createElement("option");
+      option.value = dept.name;
+      option.textContent = dept.name;
+      deptSelect.appendChild(option);
     });
-
-  // แสดงแผนกอัตโนมัติเมื่อเลือกชื่อ
-  document.getElementById('nameSelect').addEventListener('change', function () {
-    const selectedName = this.value;
-    const emp = employeeList.find(e => e.name === selectedName);
-    document.getElementById('departmentBox').value = emp ? emp.department : '';
   });
+
+ 
 
   // ส่งข้อมูล POST
   document.getElementById('leaveForm').addEventListener('submit', function (e) {
