@@ -166,21 +166,21 @@
 
     let employeeList = [];
 
-    // โหลดรายชื่อพนักงานจาก Apps Script
+    // โหลดรายชื่อและแผนก
     fetch(scriptURL)
       .then((res) => res.json())
       .then((data) => {
         employeeList = data;
-        const select = document.getElementById('nameSelect');
+        const select = document.getElementById("nameSelect");
         data.forEach((emp) => {
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = emp.name;
           option.textContent = emp.name;
           select.appendChild(option);
         });
       })
       .catch((err) => {
-        alert('โหลดรายชื่อพนักงานล้มเหลว: ' + err);
+        console.error("โหลดข้อมูลพนักงานล้มเหลว:", err);
       });
 
     // แสดงแผนกเมื่อเลือกชื่อ
