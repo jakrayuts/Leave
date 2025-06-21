@@ -115,7 +115,6 @@
         <select class="form-select" id="typeLeave" name="type" required>
           <option value="ลากิจ">ลากิจ</option>
           <option value="ลาป่วย">ลาป่วย</option>
-          <option value="ลาพักร้อน">ลาพักร้อน</option>
         </select>
       </div>
 
@@ -208,32 +207,33 @@ fetch(`${baseURL}?action=departments`)
 document.getElementById('leaveForm').addEventListener('submit', function (e) {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target).entries());
-  console.log('Sending data:', data);
+  console.log("Sending data:", data);
 
-  fetch(baseURL, {
+  fetch('https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-    .then(res => {
-      console.log('HTTP status:', res.status);
-      if (!res.ok) throw new Error('Network response was not ok');
-      return res.json();
+    .then(response => {
+      console.log("Response status:", response.status);
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
     })
-    .then(res => {
-      console.log('Response:', res);
-      if (res.result === 'ok') {
+    .then(result => {
+      console.log("Server response:", result);
+      if (result.result === "ok") {
         alert('ส่งคำขอลาสำเร็จ!');
         e.target.reset();
       } else {
-        alert('เกิดข้อผิดพลาด: ' + (res.message || 'ไม่ทราบสาเหตุ'));
+        alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
       }
     })
-    .catch(err => {
-      console.error('Fetch error:', err);
-      alert('เกิดข้อผิดพลาด: ' + err.message);
+    .catch(error => {
+      console.error('Fetch error:', error);
+      alert('เกิดข้อผิดพลาด: ' + error.message);
     });
 });
+
 
 
 </script>
