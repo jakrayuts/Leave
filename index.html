@@ -212,10 +212,13 @@ document.getElementById('leaveForm').addEventListener('submit', function(e) {
   data.action = "saveLeave"; // ถ้าจำเป็น
 
   fetch(baseURLPost, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+  mode: 'cors',  // หรือ 'no-cors' แต่ 'no-cors' จะอ่าน response ไม่ได้
+  credentials: 'omit' // ปกติใช้แบบนี้
+})
+
   .then(res => {
     if (!res.ok) throw new Error('Network response was not ok');
     return res.json();
