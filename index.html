@@ -209,29 +209,18 @@ document.getElementById('leaveForm').addEventListener('submit', function (e) {
   const data = Object.fromEntries(new FormData(e.target).entries());
   console.log("Sending data:", data);
 
-  fetch('https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-    .then(response => {
-      console.log("Response status:", response.status);
-      if (!response.ok) throw new Error('Network response was not ok');
-      return response.json();
-    })
-    .then(result => {
-      console.log("Server response:", result);
-      if (result.result === "ok") {
-        alert('ส่งคำขอลาสำเร็จ!');
-        e.target.reset();
-      } else {
-        alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
-      }
-    })
-    .catch(error => {
-      console.error('Fetch error:', error);
-      alert('เกิดข้อผิดพลาด: ' + error.message);
-    });
+  fetch(baseURL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+  redirect: 'follow', // ปกติเป็นค่า default อยู่แล้ว
+})
+.then(res => res.json())
+.then(res => {
+  console.log('Response:', res);
+})
+.catch(err => {
+  console.error('Fetch error:', err);
 });
 
 
