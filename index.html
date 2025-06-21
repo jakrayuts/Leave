@@ -181,11 +181,12 @@
   });
 
     // แสดงแผนกเมื่อเลือกชื่อ
-    document.getElementById('nameSelect').addEventListener('change', function () {
-      const selectedName = this.value;
-      const emp = employeeList.find((e) => e.name === selectedName);
-      document.getElementById('departmentBox').value = emp ? emp.department : '';
-    });
+   document.getElementById('nameSelect').addEventListener('change', function () {
+  const selectedName = this.value;
+  const emp = employeeList.find(e => e.name === selectedName);
+  document.getElementById('departmentBox').value = emp ? emp.department : '';
+});
+
 
     // ส่งข้อมูล POST ผ่าน proxy แก้ CORS
     document.getElementById('leaveForm').addEventListener('submit', function (e) {
