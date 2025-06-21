@@ -205,22 +205,36 @@ fetch(`${baseURL}?action=departments`)
 // **ตัด event listener แสดงแผนกอัตโนมัติออก**
 
 // ส่งข้อมูล POST
-fetch(baseURL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(data),
-})
-.then(res => {
-  if (!res.ok) throw new Error('Network response was not ok');
-  return res.json();
-})
-.then(res => {
-  alert('ส่งคำขอลาสำเร็จ!');
-  e.target.reset();
-})
-.catch(err => {
-  alert('เกิดข้อผิดพลาด: ' + err.message);
+document.getElementById('leaveForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  console.log('Sending data:', data);
+
+  fetch(baseURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+    .then(res => {
+      console.log('HTTP status:', res.status);
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
+    })
+    .then(res => {
+      console.log('Response:', res);
+      if (res.result === 'ok') {
+        alert('ส่งคำขอลาสำเร็จ!');
+        e.target.reset();
+      } else {
+        alert('เกิดข้อผิดพลาด: ' + (res.message || 'ไม่ทราบสาเหตุ'));
+      }
+    })
+    .catch(err => {
+      console.error('Fetch error:', err);
+      alert('เกิดข้อผิดพลาด: ' + err.message);
+    });
 });
+
 
 </script>
 
