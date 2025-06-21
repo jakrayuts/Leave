@@ -164,10 +164,10 @@
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec';
     let employeeList = [];
 
-    // โหลดรายชื่อและแผนก
-    fetch(scriptURL)
+fetch(scriptURL)
   .then((res) => res.json())
   .then((data) => {
+    employeeList = data; // เก็บข้อมูลพนักงานไว้ใช้
     const select = document.getElementById("nameSelect");
     data.forEach((emp) => {
       const option = document.createElement("option");
@@ -180,8 +180,7 @@
     console.error("โหลดข้อมูลพนักงานล้มเหลว:", err);
   });
 
-    // แสดงแผนกเมื่อเลือกชื่อ
-   document.getElementById('nameSelect').addEventListener('change', function () {
+document.getElementById('nameSelect').addEventListener('change', function () {
   const selectedName = this.value;
   const emp = employeeList.find(e => e.name === selectedName);
   document.getElementById('departmentBox').value = emp ? emp.department : '';
