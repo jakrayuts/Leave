@@ -2,43 +2,112 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>ฟอร์มขอลา</title>
+  <title>แบบฟอร์มขอลา</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+      margin-top: 1rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    input[readonly] {
+      background-color: #e9ecef;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 1rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>แบบฟอร์มขอลา</h2>
+  <div class="container">
+    <h2>แบบฟอร์มขอลา</h2>
+    <form id="leaveForm">
+      <label>ชื่อ:</label>
+      <select name="name" id="nameSelect" required>
+        <option value="">-- เลือกชื่อพนักงาน --</option>
+      </select>
 
-  <form id="leaveForm">
-    <label>ชื่อ:</label>
-    <select name="name" id="nameSelect" required>
-      <option value="">-- เลือกชื่อพนักงาน --</option>
-    </select><br>
+      <label>แผนก:</label>
+      <input type="text" name="department" id="departmentBox" readonly>
 
-    <label>แผนก:</label>
-    <input type="text" name="department" id="departmentBox" readonly><br>
+      <label>ประเภทการลา:</label>
+      <select name="type" required>
+        <option value="ลากิจ">ลากิจ</option>
+        <option value="ลาป่วย">ลาป่วย</option>
+        <option value="ลาพักร้อน">ลาพักร้อน</option>
+      </select>
 
-    <label>ประเภทการลา:</label>
-    <select name="type" required>
-      <option value="ลากิจ">ลากิจ</option>
-      <option value="ลาป่วย">ลาป่วย</option>     
-    </select><br>
+      <label>วันที่เริ่มลา:</label>
+      <input type="date" name="dateStart" required>
 
-    <label>วันที่เริ่มลา:</label>
-    <input type="date" name="dateStart" required><br> 
+      <label>เวลาเริ่มลา:</label>
+      <input type="time" name="timeStart">
 
-    <label>เวลาเริ่มลา:</label>
-    <input type="time" name="timeStart"><br>
+      <label>วันที่สิ้นสุด:</label>
+      <input type="date" name="dateEnd" required>
 
-    <label>วันที่สิ้นสุด:</label>
-    <input type="date" name="dateEnd" required><br>
+      <label>เวลาสิ้นสุด:</label>
+      <input type="time" name="timeEnd">
 
-    <label>เวลาสิ้นสุด:</label>
-    <input type="time" name="timeEnd"><br>
+      <label>จำนวนวันที่ลา (เช่น 0.5, 1, 2):</label>
+      <input type="number" name="leaveOfNumber" step="0.5" required>
 
-    <label>จำนวนวันที่ลา (ตัวเลข):</label>
-    <input type="number" name="leaveOfNumber" step="0.5" required><br>
-
-    <button type="submit">ส่งคำขอลา</button>
-  </form>
+      <button type="submit">ส่งคำขอลา</button>
+    </form>
+  </div>
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbz5FWKNkMDaLc8MRMv97g44n20jGHWfGR3ovlUuAdmfZQQzwgk6V1MftL6lISzLuyk/exec'; // URL Apps Script ของคุณ
@@ -58,14 +127,14 @@
         });
       });
 
-    // เมื่อเลือกชื่อ => ใส่แผนก
+    // เมื่อเลือกชื่อ → แสดงแผนก
     document.getElementById("nameSelect").addEventListener("change", function () {
       const selectedName = this.value;
       const emp = employeeList.find(e => e.name === selectedName);
       document.getElementById("departmentBox").value = emp ? emp.department : "";
     });
 
-    // ส่งฟอร์ม
+    // ส่งข้อมูล
     document.getElementById("leaveForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
@@ -79,7 +148,7 @@
       .then(res => {
         alert("ส่งคำขอลาสำเร็จ!");
         e.target.reset();
-        document.getElementById("departmentBox").value = ""; // ล้างแผนกด้วย
+        document.getElementById("departmentBox").value = "";
       })
       .catch(err => alert("เกิดข้อผิดพลาด: " + err));
     });
