@@ -173,6 +173,7 @@ let departmentList = [];
 fetch(`${baseURL}?action=employees`)
   .then(res => res.json())
   .then(data => {
+    console.log("employeeList", data); // ✅ ตรวจตรงนี้
     employeeList = data;
     const nameSelect = document.getElementById("nameSelect");
     data.forEach(emp => {
@@ -183,15 +184,16 @@ fetch(`${baseURL}?action=employees`)
     });
   });
 
-// โหลดรายชื่อแผนก (สำหรับให้เลือกเอง)
+// โหลดรายชื่อแผนก
 fetch(`${baseURL}?action=departments`)
   .then(res => res.json())
   .then(data => {
+    console.log("departmentList", data); // ✅ ตรวจตรงนี้
     departmentList = data;
     const deptSelect = document.getElementById("departmentBox");
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.name;  // หรือใช้ dept.id ก็ได้ตามต้องการ
+      option.value = dept.name;
       option.textContent = dept.name;
       deptSelect.appendChild(option);
     });
@@ -199,6 +201,7 @@ fetch(`${baseURL}?action=departments`)
   .catch(err => {
     console.error("โหลดรายชื่อแผนกล้มเหลว:", err);
   });
+
 
 // **ตัด event listener แสดงแผนกอัตโนมัติออก**
 
