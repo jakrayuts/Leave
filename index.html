@@ -180,18 +180,21 @@
       });
     });
 
- // โหลดรายชื่อแผนก
+ 
+// โหลดรายชื่อแผนก
 fetch(`${baseURL}?action=departments`)
   .then(res => res.json())
   .then(data => {
-    departmentList = data;
     const deptSelect = document.getElementById("departmentBox");
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.name;
-      option.textContent = dept.name;
+      option.value = dept.name;       // หรือ dept.id ถ้าต้องการใช้รหัส
+      option.textContent = dept.name; // แสดงชื่อแผนก
       deptSelect.appendChild(option);
     });
+  })
+  .catch(err => {
+    console.error("โหลดรายชื่อแผนกล้มเหลว:", err);
   });
 
  
