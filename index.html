@@ -184,23 +184,21 @@ fetch(`${baseURL}?action=employees`)
     });
   });
 
-// โหลดรายชื่อแผนก
 fetch(`${baseURL}?action=departments`)
   .then(res => res.json())
   .then(data => {
-    console.log("departmentList", data); // ✅ ตรวจตรงนี้
-    departmentList = data;
     const deptSelect = document.getElementById("departmentBox");
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.name;
-      option.textContent = dept.name;
+      option.value = dept.deptId;     // ใช้รหัสแผนกเป็นค่า value
+      option.textContent = dept.deptName;  // แสดงชื่อแผนก
       deptSelect.appendChild(option);
     });
   })
   .catch(err => {
     console.error("โหลดรายชื่อแผนกล้มเหลว:", err);
   });
+
 
 
 // **ตัด event listener แสดงแผนกอัตโนมัติออก**
