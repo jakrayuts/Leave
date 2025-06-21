@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ฟอร์มขอลา</title>
+</head>
+<body>
+  <h2>แบบฟอร์มขอลา</h2>
+  <form id="leaveForm">
+    <label>ชื่อ:</label>
+<select name="name" id="nameSelect" required>
+  <option value="">-- เลือกชื่อ --</option>
+</select><br>
+
+    <label>ประเภทการลา:</label>
+    <select name="type" required>
+      <option value="ลากิจ">ลากิจ</option>
+      <option value="ลาป่วย">ลาป่วย</option>
+      <option value="ลาพักร้อน">ลาพักร้อน</option>
+    </select><br>
+
+    <label>วันที่เริ่มลา:</label>
+    <input type="date" name="dateStart" required><br>
+
+    <label>เวลาเริ่มลา:</label>
+    <input type="time" name="timeStart"><br>
+
+    <label>วันที่สิ้นสุด:</label>
+    <input type="date" name="dateEnd" required><br>
+
+    <label>เวลาสิ้นสุด:</label>
+    <input type="time" name="timeEnd"><br>
+
+    <label>จำนวนวันที่ลา (ตัวเลข):</label>
+    <input type="number" name="leaveOfNumber" step="0.5" required><br>
+
+    <button type="submit">ส่งคำขอลา</button>
+  </form>
+
+  <script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbXXXXXXXXXXXXXXX/exec'; // ใส่ URL Apps Script ของคุณ
+
+  // โหลดรายชื่อพนักงานใส่ ComboBox
+  fetch(scriptURL)
+    .then(res => res.json())
+    .then(names => {
+      const select = document.getElementById("nameSelect");
+      names.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+      });
+    })
+    .catch(err => console.error('โหลดรายชื่อไม่สำเร็จ:', err));
+
+  // เมื่อ submit ฟอร์ม
+  document.getElementById('leaveForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+      alert('ส่งคำขอลาสำเร็จ!');
+      e.target.reset();
+    })
+    .catch(err => alert('เกิดข้อผิดพลาด: ' + err));
+  });
+</script>
+
+</body>
+</html>
