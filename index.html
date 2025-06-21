@@ -192,7 +192,7 @@ fetch(`${baseURL}?action=departments`)
     deptSelect.innerHTML = '<option value="">-- เลือกแผนก --</option>';
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.deptId;
+      option.value = dept.deptName;
       option.textContent = dept.deptName;
       deptSelect.appendChild(option);
     });
