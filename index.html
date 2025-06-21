@@ -93,19 +93,17 @@
   <div class="container shadow">
     <h2 class="mb-4 text-center">แบบฟอร์มขอลา</h2>
     <form id="leaveForm" class="mx-auto">
-      <div class="mb-3">
-        <label for="nameSelect" class="form-label">ชื่อ</label>
-        <select class="form-select" id="nameSelect" name="name" required>
-          <option value="">-- เลือกชื่อพนักงาน --</option>
-        </select>
-      </div>
+      
+      <!-- ชื่อพนักงาน -->
+<select class="form-select" id="nameSelect" name="name" required>
+  <option value="">-- เลือกชื่อพนักงาน --</option>
+</select>
 
-      <div class="mb-3">
-        <label for="departmentBox" class="form-label">แผนก</label>
-        <select class="form-select" id="departmentBox" name="department" required>
-        <option value="">-- เลือกแผนก --</option>
-        </select>
-      </div>
+<!-- แผนก (เลือกได้เอง) -->
+<select class="form-select" id="departmentBox" name="department" required>
+  <option value="">-- เลือกแผนก --</option>
+</select>
+
 
       <div class="mb-3">
         <label for="typeLeave" class="form-label">ประเภทการลา</label>
@@ -162,34 +160,34 @@
   <!-- Bootstrap JS Bundle CDN -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  const baseURL = 'https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec';
-  let employeeList = [];
-  let departmentList = [];
+const baseURL = 'https://script.google.com/macros/s/AKfycbzIjsdjoXxyK5KI_AZJWcTifhM3j7jraeUTvgQvvCdLEYOdGlezmNskFxcKBBGQDBZH/exec';
+let employeeList = [];
+let departmentList = [];
 
-  // โหลดชื่อพนักงาน
-  fetch(`${baseURL}?action=employees`)
-    .then(res => res.json())
-    .then(data => {
-      employeeList = data;
-      const nameSelect = document.getElementById("nameSelect");
-      data.forEach(emp => {
-        const option = document.createElement("option");
-        option.value = emp.name;
-        option.textContent = emp.name;
-        nameSelect.appendChild(option);
-      });
+// โหลดชื่อพนักงาน
+fetch(`${baseURL}?action=employees`)
+  .then(res => res.json())
+  .then(data => {
+    employeeList = data;
+    const nameSelect = document.getElementById("nameSelect");
+    data.forEach(emp => {
+      const option = document.createElement("option");
+      option.value = emp.name;
+      option.textContent = emp.name;
+      nameSelect.appendChild(option);
     });
+  });
 
- 
-// โหลดรายชื่อแผนก
+// โหลดรายชื่อแผนก (สำหรับให้เลือกเอง)
 fetch(`${baseURL}?action=departments`)
   .then(res => res.json())
   .then(data => {
+    departmentList = data;
     const deptSelect = document.getElementById("departmentBox");
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.name;       // หรือ dept.id ถ้าต้องการใช้รหัส
-      option.textContent = dept.name; // แสดงชื่อแผนก
+      option.value = dept.name;       // หรือ dept.id ถ้าจะใช้รหัส
+      option.textContent = dept.name;
       deptSelect.appendChild(option);
     });
   })
