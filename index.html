@@ -161,7 +161,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx08ctWhjYOPsL8_bFHBhpJsiTMuD79_4Rxru47p8o20IEr14opXNwRd4iytXk7URtP/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxFSF1z85Wjbapx9rWSAwuX2FwF-Grf9IDkQx4-eQdcf6Bxfj4qlKt9OE67N2LvKoeq/exec';
     const proxyURL = 'https://corsproxy.io/?'; // ใช้ proxy ชั่วคราวแก้ CORS
 
     let employeeList = [];
@@ -195,11 +195,11 @@
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
 
-      fetch(proxyURL + encodeURIComponent(scriptURL), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      fetch(scriptURL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+})
         .then((res) => res.json())
         .then((res) => {
           alert('ส่งคำขอลาสำเร็จ!');
