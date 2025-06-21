@@ -209,19 +209,27 @@ document.getElementById('leaveForm').addEventListener('submit', function (e) {
   const data = Object.fromEntries(new FormData(e.target).entries());
   console.log("Sending data:", data);
 
-  fetch(baseURL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const data = {
+  action: "saveLeave",
+  name: "Jakrayut Sangbunrueang",
+  department: "IT",
+  type: "ลากิจ",
+  dateStart: "2025-06-23",
+  timeStart: "08:00",
+  dateEnd: "2025-06-23",
+  timeEnd: "17:00",
+  leaveOfNumber: "1",
+  reason: "test"
+};
+
+fetch(baseURL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data),
-  redirect: 'follow', // ปกติเป็นค่า default อยู่แล้ว
 })
-.then(res => res.json())
-.then(res => {
-  console.log('Response:', res);
-})
-.catch(err => {
-  console.error('Fetch error:', err);
-});
+  .then(res => res.json())
+  .then(json => console.log("Response:", json))
+  .catch(err => console.error("Fetch error:", err));
 
 
 
