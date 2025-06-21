@@ -187,16 +187,17 @@ fetch(`${baseURL}?action=employees`)
 fetch(`${baseURL}?action=departments`)
   .then(res => res.json())
   .then(data => {
-    console.log("departmentList =", data);  // ตรวจสอบข้อมูลแผนก
+    console.log("โหลดแผนกสำเร็จ", data); // Debug
     const deptSelect = document.getElementById("departmentBox");
     deptSelect.innerHTML = '<option value="">-- เลือกแผนก --</option>';
     data.forEach(dept => {
       const option = document.createElement("option");
-      option.value = dept.deptId;
-      option.textContent = dept.deptName;
+      option.value = dept.deptId;         // ต้องใช้ deptId
+      option.textContent = dept.deptName; // ต้องใช้ deptName
       deptSelect.appendChild(option);
     });
-  });
+  })
+  .catch(err => console.error("โหลดรายชื่อแผนกล้มเหลว:", err));
 
 
 
